@@ -15,7 +15,7 @@ describe Link do
 			#Let's get the first and only link from the database
 			link = Link.first
 			#Now it has all the properties it was saved with
-			expect(link.url?).to eq('http://www.makersacademy')
+			expect(link.url).to eq('http://www.makersacademy')
 			expect(link.title).to eq('Makers Academy')
 			#If we want to we can destroy it
 			link.destroy
