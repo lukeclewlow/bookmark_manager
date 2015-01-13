@@ -13,4 +13,7 @@ feature "User browses the list of links" do
 		visit '/'
 		expect(page).to have_content("Makers Academy")
 	end
+
+
+
 end

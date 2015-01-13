@@ -14,9 +14,11 @@ class BookmarkManager < Sinatra::Base
 	#The name will be "bookmark_manager_test" or "bookmark_manager_development"
 	#depending on the environment
 
+	DataMapper::Logger.new($stdout, :debug)
 	DataMapper.setup(:default, "postgres://localhost/bookmark_manager_#{env}")
 
 	require './lib/link' #this needs to be done after datamapper is initialised
+	require './lib/tag'
 
 	#after declaring your models you should finalize them
 	DataMapper.finalize
@@ -32,7 +34,10 @@ class BookmarkManager < Sinatra::Base
 	post '/links' do
 		url = params["url"]
 		title = params["title"]
-		Link.create(:url => url, :title => title)
+		tags = params["tags"].split(" ").map do |tag|
+			Tag.first_or_create(:text => tag)
+		end
+		Link.create(:url => url, :title => title, :tags => tags)
 		redirect to('/')
 	end
 
