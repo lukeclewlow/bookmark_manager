@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-
-
 feature "User can add tags" do
 
 	scenario "with a few tags" do
