@@ -1,5 +1,6 @@
 require 'data_mapper'
 require 'sinatra/base'
+require 'rack-flash'
 
 class BookmarkManager < Sinatra::Base
 
@@ -14,7 +15,7 @@ class BookmarkManager < Sinatra::Base
 	#The name will be "bookmark_manager_test" or "bookmark_manager_development"
 	#depending on the environment
 
-	DataMapper::Logger.new($stdout, :debug)
+	# DataMapper::Logger.new($stdout, :debug) #shows logs from server as test runs
 	DataMapper.setup(:default, "postgres://localhost/bookmark_manager_#{env}")
 
 	require './lib/link' #this needs to be done after datamapper is initialised
@@ -29,6 +30,8 @@ class BookmarkManager < Sinatra::Base
 
 	enable :sessions
 	set :session_secret, 'super secret'
+	use Rack::Flash
+
 
 	get '/' do
 		@links = Link.all		
@@ -52,14 +55,21 @@ class BookmarkManager < Sinatra::Base
 	end
 
 	get '/users/new' do
+		@user = User.new
 		erb :"users/new"
 	end
 
 	post '/users' do
-		user = User.create(:email => params[:email],
-								:password => params[:password])
-		session[:user_id] = user.id
-		redirect to('/')
+		@user = User.create(:email => params[:email],
+											:password => params[:password],
+											:password_confirmation => params[:password_confirmation])
+		if @user.save
+			session[:user_id] = @user.id
+			redirect to('/')
+		else
+			flash[:notice] = "Sorry, your passwords don't match"
+			erb :"users/new"
+		end
 	end
 
 	helpers do 
