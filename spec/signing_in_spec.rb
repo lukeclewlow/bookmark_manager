@@ -12,7 +12,7 @@ feature "User signs in" do
   scenario "with correct credentials" do
     visit '/'
     expect(page).not_to have_content("Welcome, test@test.com")
-    save_and_open_page
+    # save_and_open_page
     sign_in('test@test.com', 'test')
     expect(page).to have_content("Welcome, test@test.com")
   end
