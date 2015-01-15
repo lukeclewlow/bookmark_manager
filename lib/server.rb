@@ -34,6 +34,10 @@ class BookmarkManager < Sinatra::Base
 	use Rack::Flash
 	use Rack::MethodOverride
 
+  configure do
+    register Sinatra::Partial
+  end
+
 
 	get '/' do
 		@links = Link.all		
@@ -92,6 +96,7 @@ class BookmarkManager < Sinatra::Base
 
 	delete '/sessions' do
 		flash[:notice] = "Good bye!"
+		# session.clear
 		session[:user_id] = nil
 		redirect '/'
 	end
