@@ -25,8 +25,8 @@ class BookmarkManager < Sinatra::Base
 	#after declaring your models you should finalize them
 	DataMapper.finalize
 
-	#However, the database tables don't exist yet. Let's tell datamapper to create them
-	DataMapper.auto_upgrade!
+	
+	DataMapper.auto_migrate!
 
 	enable :sessions
 	set :session_secret, 'super secret'
