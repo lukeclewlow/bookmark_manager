@@ -1,6 +1,7 @@
 require 'data_mapper'
 require 'sinatra/base'
 require 'rack-flash'
+require 'sinatra/partial'
 
 class BookmarkManager < Sinatra::Base
 
