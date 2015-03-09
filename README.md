@@ -6,6 +6,7 @@ A basic bookmark manager for the web. Allowing someone to store some links and a
 ##Objectives?
 * Learn about PSQL and relational database use
 * Integration with Sinatra
+* Keep it really simple
 
 ###To run:
 
